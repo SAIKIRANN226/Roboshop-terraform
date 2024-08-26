@@ -279,7 +279,7 @@ module "records" {
       type    = "A"
       ttl     = 1
       records = [
-        "${module.web.private_ip}",
+        "${module.web.private_ip}",   # for web we need to give public ip, private ip will also work when connected to VPN
       ]
     },
   ]
