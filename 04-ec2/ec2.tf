@@ -203,7 +203,7 @@ module "records" {
 
   records = [
     {
-      name    = "mongodb"
+      name    = "mongodb"   # Here just give names it will append,no need to give mongodb.dawsonline
       type    = "A"
       ttl     = 1
       records = [
