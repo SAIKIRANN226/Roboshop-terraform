@@ -3,7 +3,7 @@ module "vpn" {
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for VPN"
-  vpc_id         = data.aws_vpc.default.id
+  vpc_id         = data.aws_vpc.default.id 
   sg_name        = "vpn"
   #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
@@ -13,7 +13,7 @@ module "mongodb" {
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for MongoDB"
-  vpc_id         = data.aws_ssm_parameter.vpc_id.value
+  vpc_id         = data.aws_ssm_parameter.vpc_id.value  # We are using data-source here by data.tf file
   sg_name        = "mongodb"
   #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
