@@ -1,7 +1,7 @@
 resource "aws_ssm_parameter" "vpc_id" {
     name = "/${var.project_name}/${var.environment}/vpc_id"
     type = "String"
-    value = module.roboshop.vpc_id
+    value = module.roboshop.vpc_id  # Ouput --> It should be there inside the module outputs,module should output then only is is used
 }
 
 resource "aws_ssm_parameter" "public_subnet_ids" {
