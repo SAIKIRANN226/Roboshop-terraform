@@ -129,7 +129,7 @@ resource "aws_security_group_rule" "mongodb_vpn" {
 }
 
 #mongodb accepting connections from catalogue instance
-resource "aws_security_group_rule" "mongodb_catalogue" {
+resource "aws_security_group_rule" "mongodb_catalogue" {  # It is convention like mongodb aacepting connections from catalogue
   source_security_group_id = module.catalogue.sg_id
   type                     = "ingress"
   from_port                = 27017
@@ -138,7 +138,7 @@ resource "aws_security_group_rule" "mongodb_catalogue" {
   security_group_id        = module.mongodb.sg_id
 }
 
-resource "aws_security_group_rule" "mongodb_user" {
+resource "aws_security_group_rule" "mongodb_user" {  # It is convention like mongodb aacepting connections from user
   source_security_group_id = module.user.sg_id
   type                     = "ingress"
   from_port                = 27017
@@ -147,7 +147,7 @@ resource "aws_security_group_rule" "mongodb_user" {
   security_group_id        = module.mongodb.sg_id
 }
 
-resource "aws_security_group_rule" "redis_user" {
+resource "aws_security_group_rule" "redis_user" {   # It is convention like redis aacepting connections from user
   source_security_group_id = module.user.sg_id
   type                     = "ingress"
   from_port                = 6379
@@ -156,7 +156,7 @@ resource "aws_security_group_rule" "redis_user" {
   security_group_id        = module.redis.sg_id
 }
 
-resource "aws_security_group_rule" "redis_cart" {
+resource "aws_security_group_rule" "redis_cart" {  # It is convention like redis aacepting connections from cart
   source_security_group_id = module.cart.sg_id
   type                     = "ingress"
   from_port                = 6379
@@ -166,7 +166,7 @@ resource "aws_security_group_rule" "redis_cart" {
 }
 
 
-resource "aws_security_group_rule" "mysql_vpn" {
+resource "aws_security_group_rule" "mysql_vpn" {   
   source_security_group_id = module.vpn.sg_id
   type                     = "ingress"
   from_port                = 22
