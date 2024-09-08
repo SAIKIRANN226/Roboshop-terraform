@@ -25,4 +25,5 @@ resource "aws_ssm_parameter" "database_subnet_ids" {
 
 # output "public_subnet_ids" {
 #   value = module.roboshop.public_subnet_ids
-# }
+# }  
+# just to know the ouput of the above subnets how it is printing
