@@ -120,7 +120,7 @@ resource "aws_security_group_rule" "vpn_home" {
 
 
 resource "aws_security_group_rule" "mongodb_vpn" {
-  source_security_group_id = module.vpn.sg_id
+  source_security_group_id = module.vpn.sg_id  
   type                     = "ingress"
   from_port                = 22
   to_port                  = 22
@@ -128,9 +128,9 @@ resource "aws_security_group_rule" "mongodb_vpn" {
   security_group_id        = module.mongodb.sg_id
 }
 
-#mongodb accepting connections from catalogue instance
+# mongodb accepting connections from catalogue instance
 resource "aws_security_group_rule" "mongodb_catalogue" {  # It is convention like mongodb aacepting connections from catalogue,similarly same for other components also
-  source_security_group_id = module.catalogue.sg_id
+  source_security_group_id = module.catalogue.sg_id # adding catalogue rule(134 to 138) in mongodb security,similary for the below also
   type                     = "ingress"
   from_port                = 27017
   to_port                  = 27017
@@ -139,12 +139,12 @@ resource "aws_security_group_rule" "mongodb_catalogue" {  # It is convention lik
 }
 
 resource "aws_security_group_rule" "mongodb_user" {  # It is convention like mongodb aacepting connections from user
-  source_security_group_id = module.user.sg_id
+  source_security_group_id = module.user.sg_id # this mongodb is accpeting connections from user source
   type                     = "ingress"
   from_port                = 27017
   to_port                  = 27017
   protocol                 = "tcp"
-  security_group_id        = module.mongodb.sg_id
+  security_group_id        = module.mongodb.sg_id # and adding it to the mongodb
 }
 
 resource "aws_security_group_rule" "redis_user" {   # It is convention like redis aacepting connections from user
