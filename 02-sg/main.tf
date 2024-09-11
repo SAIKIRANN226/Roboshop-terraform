@@ -109,7 +109,7 @@ module "web" {
 }
 
 #openvpn
-resource "aws_security_group_rule" "vpn_home" {
+resource "aws_security_group_rule" "vpn_home" {  # vpn accepting connections from home
   security_group_id = module.vpn.sg_id
   type                     = "ingress"
   from_port                = 0

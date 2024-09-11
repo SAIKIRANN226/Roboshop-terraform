@@ -18,7 +18,7 @@ data "aws_ami" "centos8"{
     }
 }
 
-data "aws_vpc" "default" {
+data "aws_vpc" "default" { # getting default vpc
   default = true
 }
 
@@ -27,9 +27,10 @@ data "aws_subnet" "selected" {
   availability_zone = "us-east-1a"
 }
 
+# output "vpc_info" {
+#   value = data.aws_subnet.selected.id
+# } here iam checking wether iam getting subnets or for output 
+
 data "aws_ssm_parameter" "vpn_sg_id" {
   name = "/${var.project_name}/${var.environment}/vpn_sg_id"
 }
-# output "vpc_info" {
-#   value = data.aws_subnet.selected.id
-# }

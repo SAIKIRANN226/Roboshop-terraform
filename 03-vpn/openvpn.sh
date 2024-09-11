@@ -15,3 +15,6 @@ export PASS=1
 curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
 chmod +x openvpn-install.sh
 ./openvpn-install.sh
+
+
+# it is a userdata if you want to run a small script when intance is created it will automaticall run this user data,for now this script is to isntall open vpn,where will be user data logs ---> sudo su - --->cd /var/log/ ---> ls -l ---> cloud-init.log ---> tail -f cloud-init.log,after creating this in the root folder it will create a vpn file we need to take that using cat and save it in local
