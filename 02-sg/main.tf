@@ -115,7 +115,7 @@ resource "aws_security_group_rule" "vpn_home" {  # vpn accepting connections fro
   from_port                = 0
   to_port                  = 65535
   protocol                 = "-1"
-  cidr_blocks = ["0.0.0.0/0"] #ideally your home public IP address, but it frequently changes
+  cidr_blocks = ["0.0.0.0/0"] # this is to provide more security but ideally your home public IP address should be there,but it frequently changes
 }
 
 
