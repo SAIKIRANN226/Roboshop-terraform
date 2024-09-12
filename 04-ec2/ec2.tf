@@ -185,7 +185,7 @@ module "ansible" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = [data.aws_ssm_parameter.vpn_sg_id.value]
   subnet_id              = data.aws_subnet.selected.id #  default VPC 1a subnet
-  user_data = file("ec2-provision.sh")
+  user_data = file("ec2-provision.sh")  # user-data logs will be in sudo su -/ls -l/tail -f cloud-init-output.log
   tags = merge(
     var.common_tags,
     {
