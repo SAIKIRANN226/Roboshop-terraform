@@ -130,7 +130,7 @@ resource "aws_security_group_rule" "mongodb_vpn" {
 
 # mongodb accepting connections from catalogue instance
 resource "aws_security_group_rule" "mongodb_catalogue" {  # It is convention like mongodb aacepting connections from catalogue,similarly same for other components also
-  source_security_group_id = module.catalogue.sg_id # adding catalogue rule(134 to 138) in mongodb security,similary for the below also
+  source_security_group_id = module.catalogue.sg_id # adding catalogue rule(134lines to 138lines) in mongodb security,similary for the below also
   type                     = "ingress"
   from_port                = 27017
   to_port                  = 27017
