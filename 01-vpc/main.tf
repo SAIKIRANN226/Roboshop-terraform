@@ -18,6 +18,3 @@ module "roboshop" {
   # Peering
   is_peering_required = var.is_peering_required
 }
-
-
-# The above code is nothing but whatever there in the vpc-test code same code we put here

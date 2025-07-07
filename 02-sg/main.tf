@@ -1,124 +1,113 @@
 module "vpn" {
-  source         = "../../terraform-aws-security-group"
+  source         = "../../Terraform-aws-SGmodule"
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for VPN"
   vpc_id         = data.aws_vpc.default.id 
   sg_name        = "vpn"
-  #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
 
 module "mongodb" {
-  source         = "../../terraform-aws-security-group"
+  source         = "../../Terraform-aws-SGmodule"
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for MongoDB"
-  vpc_id         = data.aws_ssm_parameter.vpc_id.value  # We are using data-source here by data.tf file
+  vpc_id         = data.aws_ssm_parameter.vpc_id.value
   sg_name        = "mongodb"
-  #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
 
 module "redis" {
-  source         = "../../terraform-aws-security-group"
+  source         = "../../Terraform-aws-SGmodule"
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for redis"
   vpc_id         = data.aws_ssm_parameter.vpc_id.value
   sg_name        = "redis"
-  #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
 
 module "mysql" {
-  source         = "../../terraform-aws-security-group"
+  source         = "../../Terraform-aws-SGmodule"
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for mysql"
   vpc_id         = data.aws_ssm_parameter.vpc_id.value
   sg_name        = "mysql"
-  #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
 
 module "rabbitmq" {
-  source         = "../../terraform-aws-security-group"
+  source         = "../../Terraform-aws-SGmodule"
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for rabbitmq"
   vpc_id         = data.aws_ssm_parameter.vpc_id.value
   sg_name        = "rabbitmq"
-  #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
 
 module "catalogue" {
-  source         = "../../terraform-aws-security-group"
+  source         = "../../Terraform-aws-SGmodule"
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for catalogue"
   vpc_id         = data.aws_ssm_parameter.vpc_id.value
   sg_name        = "catalogue"
-  #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
 
 module "user" {
-  source         = "../../terraform-aws-security-group"
+  source         = "../../Terraform-aws-SGmodule"
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for user"
   vpc_id         = data.aws_ssm_parameter.vpc_id.value
   sg_name        = "user"
-  #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
 
 module "cart" {
-  source         = "../../terraform-aws-security-group"
+  source         = "../../Terraform-aws-SGmodule"
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for cart"
   vpc_id         = data.aws_ssm_parameter.vpc_id.value
   sg_name        = "cart"
-  #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
 
 module "shipping" {
-  source         = "../../terraform-aws-security-group"
+  source         = "../../Terraform-aws-SGmodule"
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for shipping"
   vpc_id         = data.aws_ssm_parameter.vpc_id.value
   sg_name        = "shipping"
-  #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
 
 module "payment" {
-  source         = "../../terraform-aws-security-group"
+  source         = "../../Terraform-aws-SGmodule"
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for payment"
   vpc_id         = data.aws_ssm_parameter.vpc_id.value
   sg_name        = "payment"
-  #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
 
 module "web" {
-  source         = "../../terraform-aws-security-group"
+  source         = "../../Terraform-aws-SGmodule"
   project_name   = var.project_name
   environment    = var.environment
   sg_description = "SG for web"
   vpc_id         = data.aws_ssm_parameter.vpc_id.value
   sg_name        = "web"
-  #sg_ingress_rules = var.mongodb_sg_ingress_rules
 }
 
-#openvpn
-resource "aws_security_group_rule" "vpn_home" {  # vpn accepting connections from home
+# Openvpn accepting connections from home
+resource "aws_security_group_rule" "vpn_home" {
   security_group_id = module.vpn.sg_id
   type                     = "ingress"
-  from_port                = 0
+  from_port                = 0 # We have previously given from_port and to_port = 22, but it is not working, so siva has given maximum ports like 0-65,535 ports.
   to_port                  = 65535
   protocol                 = "-1"
-  cidr_blocks = ["0.0.0.0/0"] # this is to provide more security but ideally your home public IP address should be there,but it frequently changes,if you can take static IP from the ISP provider then you can give that IP here
+  cidr_blocks = ["0.0.0.0/0"] # If you want to provide more security then you can give your home static public_ip address in this cidr_blocks, but it frequently changes, if you can take static IP from the ISP provider then you can give that IP here.
 }
 
-
+# Mongodb accepting connections from vpn instance
 resource "aws_security_group_rule" "mongodb_vpn" {
   source_security_group_id = module.vpn.sg_id  
   type                     = "ingress"
@@ -128,9 +117,9 @@ resource "aws_security_group_rule" "mongodb_vpn" {
   security_group_id        = module.mongodb.sg_id
 }
 
-# mongodb accepting connections from catalogue instance
-resource "aws_security_group_rule" "mongodb_catalogue" {  # It is convention like mongodb aacepting connections from catalogue,similarly same for other components also
-  source_security_group_id = module.catalogue.sg_id # adding catalogue rule(134lines to 138lines) in mongodb security,similary for the below also
+# Mongodb accepting connections from catalogue instance
+resource "aws_security_group_rule" "mongodb_catalogue" { 
+  source_security_group_id = module.catalogue.sg_id
   type                     = "ingress"
   from_port                = 27017
   to_port                  = 27017
@@ -138,16 +127,16 @@ resource "aws_security_group_rule" "mongodb_catalogue" {  # It is convention lik
   security_group_id        = module.mongodb.sg_id
 }
 
-resource "aws_security_group_rule" "mongodb_user" {  # It is convention like mongodb aacepting connections from user
-  source_security_group_id = module.user.sg_id # this mongodb is accpeting connections from user source
+resource "aws_security_group_rule" "mongodb_user" {
+  source_security_group_id = module.user.sg_id
   type                     = "ingress"
   from_port                = 27017
   to_port                  = 27017
   protocol                 = "tcp"
-  security_group_id        = module.mongodb.sg_id # and adding it to the mongodb
+  security_group_id        = module.mongodb.sg_id
 }
 
-resource "aws_security_group_rule" "redis_user" {   # It is convention like redis aacepting connections from user
+resource "aws_security_group_rule" "redis_user" {
   source_security_group_id = module.user.sg_id
   type                     = "ingress"
   from_port                = 6379
@@ -156,7 +145,7 @@ resource "aws_security_group_rule" "redis_user" {   # It is convention like redi
   security_group_id        = module.redis.sg_id
 }
 
-resource "aws_security_group_rule" "redis_cart" {  # It is convention like redis aacepting connections from cart
+resource "aws_security_group_rule" "redis_cart" {
   source_security_group_id = module.cart.sg_id
   type                     = "ingress"
   from_port                = 6379

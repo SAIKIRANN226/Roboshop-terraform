@@ -1,6 +1,6 @@
 #!/bin/bash
 
-yum install ansible -y
+yum install ansible -y # No need sudo su- here, because user-data will get sudo access automatically
 cd /tmp
 git clone https://github.com/daws-76s/roboshop-ansible-roles.git
 cd roboshop-ansible-roles

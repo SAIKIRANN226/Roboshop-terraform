@@ -18,18 +18,18 @@ data "aws_ami" "centos8"{
     }
 }
 
-data "aws_vpc" "default" { # getting default vpc
+data "aws_vpc" "default" {
   default = true
 }
+
+# output "vpc_info" {
+#   value = data.aws_subnet.selected.id
+# } Here iam just checking wether iam getting subnets or not in output. But here we dint got the subnets information, so siva took from terraform website in google like "data-source subnet" below is the syntax to get subnets.
 
 data "aws_subnet" "selected" {
   vpc_id = data.aws_vpc.default.id
   availability_zone = "us-east-1a"
 }
-
-# output "vpc_info" {
-#   value = data.aws_subnet.selected.id
-# } here iam checking wether iam getting subnets or for output 
 
 data "aws_ssm_parameter" "vpn_sg_id" {
   name = "/${var.project_name}/${var.environment}/vpn_sg_id"

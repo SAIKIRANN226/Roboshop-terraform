@@ -5,4 +5,4 @@ locals {
   public_subnet_id = element(split(",", data.aws_ssm_parameter.public_subnet_ids.value), 0)
 }
 
-# Here converting the string into a list by using "," and then spliting and then taking the first element by using element function 
+# Here converting the string into a list by using "," and then spliting and then taking the first element by using element function because we put all resources in 1a

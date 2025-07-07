@@ -1,3 +1,5 @@
+# Creating instances along with the route53 records, and we can also keep loops if we want, but keeping loops everywhere is not a good option, because we need to parameterize everything that is a tedious thing, so creating in normal way, later we can create using standard way like autoscaling and launch templates.
+
 module "mongodb" {
   source                 = "terraform-aws-modules/ec2-instance/aws"
   ami = data.aws_ami.centos8.id
@@ -203,7 +205,7 @@ module "records" {
 
   records = [
     {
-      name    = "mongodb"   # Here just give names it will append,no need to give mongodb.dawsonline
+      name    = "mongodb"   # Here just give names it will append, no need to give mongodb.dawsonline
       type    = "A"
       ttl     = 1
       records = [
@@ -279,7 +281,7 @@ module "records" {
       type    = "A"
       ttl     = 1
       records = [
-        "${module.web.private_ip}",   # for web we need to give public ip, private ip will also work when connected to VPN
+        "${module.web.private_ip}",   # For web we need to give public_ip, but private_ip will also work because we are connected to VPN
       ]
     },
   ]
