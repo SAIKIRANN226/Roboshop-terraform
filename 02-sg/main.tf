@@ -119,7 +119,7 @@ resource "aws_security_group_rule" "mongodb_vpn" {
 
 # Mongodb accepting connections from catalogue instance
 resource "aws_security_group_rule" "mongodb_catalogue" { 
-  source_security_group_id = module.catalogue.sg_id
+  source_security_group_id = module.catalogue.sg_id # In this mongodb SG, iam adding catalogue 27017 rule
   type                     = "ingress"
   from_port                = 27017
   to_port                  = 27017
@@ -128,7 +128,7 @@ resource "aws_security_group_rule" "mongodb_catalogue" {
 }
 
 resource "aws_security_group_rule" "mongodb_user" {
-  source_security_group_id = module.user.sg_id
+  source_security_group_id = module.user.sg_id # In this mongodb SG, iam adding user 27017 rule
   type                     = "ingress"
   from_port                = 27017
   to_port                  = 27017
